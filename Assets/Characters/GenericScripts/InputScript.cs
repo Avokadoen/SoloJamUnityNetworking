@@ -20,6 +20,17 @@ public class InputScript : NetworkBehaviour
         if (!isLocalPlayer)
         {
             // exit from update if this is not the local player
+            playerInterface.UpdateRenderer();
+            return;
+        }
+        LocalPlayer();
+    }
+
+
+    void LocalPlayer()
+    {
+        if (playerInterface.IsPlayerDead())
+        {
             return;
         }
 
@@ -42,8 +53,5 @@ public class InputScript : NetworkBehaviour
         {
             playerInterface.Punch();
         }
-
-
-
     }
 }

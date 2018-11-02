@@ -27,7 +27,8 @@ GameObject:
   - component: {fileID: 114261889428962346}
   - component: {fileID: 61939843557326760}
   - component: {fileID: 95980359599284194}
-  - component: {fileID: 114759063530185342}
+  - component: {fileID: 114779752856937962}
+  - component: {fileID: 114354969869874876}
   m_Layer: 14
   m_Name: UglyManPrefab
   m_TagString: Untagged
@@ -179,6 +180,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3093cd8d2e63a4f9350f0bdac23e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114354969869874876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1295722248690478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e51baef7cc323b40a8de9b8c018db28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SyncVarDirtyBits: 0
+  m_LastSendTime: 0
+  m_SyncVarGuard: 0
+  m_MyView: {fileID: 0}
+  health: 100
+  punchSpeed: 0.4
+  sincePunchTime: 0
+  moveSpeed: 500
+  maxMoveSpeed: 5
+  jumpForce: 200
+  jumpCooldown: 0.2
+  sinceJump: 0
+  rigidBo: {fileID: 0}
+  sprite: {fileID: 0}
+  animator: {fileID: 0}
+  grounded: {fileID: 61939843557326760}
+  groundLayer:
+    m_Bits: 16384
+  characterLayer:
+    m_Bits: 32768
+  playerState: 0
 --- !u!114 &114701292040411380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,7 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   punchSpeed: 0.4
-  punchDmg: 2
+  punchDmg: 50
   moveSpeed: 500
   maxMoveSpeed: 5
   jumpForce: 200
@@ -201,7 +234,13 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 32768
---- !u!114 &114759063530185342
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 16384
+  spriteSheetName: 
+  currentSpriteIndex: 0
+  isSpriteFlipped: 0
+--- !u!114 &114779752856937962
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,17 +248,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1295722248690478}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 95980359599284194}
-  m_ParameterSendBits: 1
-  param0: 
-  param1: 
-  param2: 
-  param3: 
-  param4: 
-  param5: 
+  m_TransformSyncMode: 2
+  m_SendInterval: 0.04
+  m_SyncRotationAxis: 3
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!212 &212896961024739672
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -255,7 +296,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300010, guid: 32720e4572fc3eb4f9dc6d4797234926, type: 3}
+  m_Sprite: {fileID: 21300012, guid: 32720e4572fc3eb4f9dc6d4797234926, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

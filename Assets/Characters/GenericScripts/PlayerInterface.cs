@@ -46,9 +46,9 @@ public class PlayerInterface : NetworkBehaviour
     [SyncVar]
     private PlayerState playerState;
 
-    [SyncVar, SerializeField]
+    [SyncVar]
     private int currentSpriteIndex;
-    [SyncVar, SerializeField]
+    [SyncVar]
     private bool isSpriteFlipped;
     Sprite[] sprites;
 
@@ -66,7 +66,9 @@ public class PlayerInterface : NetworkBehaviour
         if (animator == null)
             Debug.LogError("failed to retrieve animator");
 
-        sprites = (Sprite[])Resources.LoadAll(spriteSheetName);
+       
+        sprites = Resources.LoadAll<Sprite>(spriteSheetName);
+  
         if(sprites == null)
             Debug.LogError("failed to retrieve sprites");
 
@@ -75,7 +77,7 @@ public class PlayerInterface : NetworkBehaviour
 
     private void Update()
     {
-        if(playerState == PlayerState.dead)
+        if(playerState == PlayerState.dead || !isLocalPlayer)
         {
             return;
         }
@@ -83,34 +85,43 @@ public class PlayerInterface : NetworkBehaviour
         sincePunchTime  += Time.deltaTime;
         sinceJump       += Time.deltaTime;
 
-        if (playerState == PlayerState.jumping && rigidBo.velocity.y <= 0)
+        if (playerState == PlayerState.jumping && rigidBo.velocity.y > 0.0f)
+            playerState = PlayerState.jumping;
+
+        if (playerState == PlayerState.jumping && rigidBo.velocity.y <= 0.0f)
             playerState = PlayerState.falling;
 
-        if (playerState == PlayerState.falling && rigidBo.velocity.y <= 0 && rigidBo.velocity.y >= -0)
+        else if (playerState == PlayerState.falling && rigidBo.velocity.y <= 0.01f && rigidBo.velocity.y >= -0.01f)
             playerState = PlayerState.idle;
 
-        if (playerState == PlayerState.walking && rigidBo.velocity.x <= 0 && rigidBo.velocity.x >= -0)
+        else if(playerState == PlayerState.walking && rigidBo.velocity.x <= 0.01f && rigidBo.velocity.x >= -0.01f)
             playerState = PlayerState.idle;
 
-        if (playerState == PlayerState.punch && sincePunchTime > punchSpeed)
+        else if(playerState == PlayerState.punch && sincePunchTime > punchSpeed)
             playerState = PlayerState.idle;
 
+       
         var spriteNameSplit = spriteRenderer.sprite.name.Split('_');
         currentSpriteIndex = int.Parse(spriteNameSplit[spriteNameSplit.Length - 1]);
-
+        
         animator.SetInteger("PlayerState", (int)playerState);
     }
 
-    public void UpdateRenderer()
+    public void SyncRenderer()
     {
-        if (isLocalPlayer) return; // this is for syncing others
+        if (isLocalPlayer)
+        {
+            Debug.LogError("SyncRenderer called on local");
+            return;
+        }; // dont sync is for syncing others
 
         spriteRenderer.sprite = sprites[currentSpriteIndex];
-        spriteRenderer.flipX = rigidBo.velocity.x > 0;
+        spriteRenderer.flipX = isSpriteFlipped;
     }
 
     public void Move(float xAxis)
     {
+        isSpriteFlipped = xAxis > 0;
         spriteRenderer.flipX = xAxis > 0;
 
         if ((rigidBo.velocity.x > 0 && xAxis < 0) || (rigidBo.velocity.x < 0 && xAxis > 0))

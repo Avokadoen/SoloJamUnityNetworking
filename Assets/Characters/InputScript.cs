@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(PlayerInterface))]
-public class InputScript : NetworkBehaviour {
+public class InputScript : NetworkBehaviour
+{
 
     PlayerInterface playerInterface;
 
@@ -14,7 +15,8 @@ public class InputScript : NetworkBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         if (!isLocalPlayer)
         {
             // exit from update if this is not the local player
@@ -22,10 +24,11 @@ public class InputScript : NetworkBehaviour {
         }
 
         float xInput = Input.GetAxis("Horizontal") * Time.deltaTime;
-        if(xInput != 0)
+        if (xInput != 0)
         {
             playerInterface.Move(xInput);
-        } else
+        }
+        else
         {
             playerInterface.StopMove();
         }
@@ -35,7 +38,12 @@ public class InputScript : NetworkBehaviour {
             playerInterface.Jump();
         }
 
-        
+        if (Input.GetButtonDown("Punch"))
+        {
+            playerInterface.Punch();
+        }
+
+
 
     }
 }

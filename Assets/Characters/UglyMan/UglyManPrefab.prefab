@@ -26,7 +26,9 @@ GameObject:
   - component: {fileID: 114701292040411380}
   - component: {fileID: 114261889428962346}
   - component: {fileID: 61939843557326760}
-  m_Layer: 0
+  - component: {fileID: 95980359599284194}
+  - component: {fileID: 114759063530185342}
+  m_Layer: 14
   m_Name: UglyManPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1295722248690478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.6996207, y: -1.2118791, z: 0}
+  m_LocalPosition: {x: 1.2054391, y: -0.6981907, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -65,7 +67,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &61834141515929814
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -116,6 +118,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3340168, y: 0.018880486}
   m_EdgeRadius: 0
+--- !u!95 &95980359599284194
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1295722248690478}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99c7a3c4d9529b445b4507f5856bd9a3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114113957719052022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -171,6 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  punchSpeed: 0.4
+  punchDmg: 2
   moveSpeed: 500
   maxMoveSpeed: 5
   jumpForce: 200
@@ -179,6 +201,25 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 32768
+--- !u!114 &114759063530185342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1295722248690478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 95980359599284194}
+  m_ParameterSendBits: 1
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!212 &212896961024739672
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -214,7 +255,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 32720e4572fc3eb4f9dc6d4797234926, type: 3}
+  m_Sprite: {fileID: 21300010, guid: 32720e4572fc3eb4f9dc6d4797234926, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

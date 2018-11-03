@@ -9,21 +9,21 @@ public enum PlayerState { idle, walking, falling, jumping, punch, kick, special,
 public class PlayerInterface : NetworkBehaviour
 {
 
-    [SyncVar, SerializeField]
-    private float health;
+    [SyncVar]
+    public float health;
 
-    [SyncVar, SerializeField]
+    [SerializeField]
     private float punchSpeed;
     private float sincePunchTime;
-    [SyncVar, SerializeField]
+    [SerializeField]
     private float punchDmg;
 
-    [SyncVar, SerializeField]
+    [SerializeField]
     private float moveSpeed;
     [SerializeField]
     private float maxMoveSpeed;
 
-    [SyncVar, SerializeField]
+    [SerializeField]
     private float jumpForce;
     [SerializeField]
     private float jumpCooldown;
@@ -43,14 +43,7 @@ public class PlayerInterface : NetworkBehaviour
     [SyncVar, SerializeField]
     private string spriteSheetName;
 
-    [SyncVar]
     private PlayerState playerState;
-
-    [SyncVar]
-    private int currentSpriteIndex;
-    [SyncVar]
-    private bool isSpriteFlipped;
-    Sprite[] sprites;
 
     private void Start()
     {
@@ -66,19 +59,31 @@ public class PlayerInterface : NetworkBehaviour
         if (animator == null)
             Debug.LogError("failed to retrieve animator");
 
-       
-        sprites = Resources.LoadAll<Sprite>(spriteSheetName);
-  
-        if(sprites == null)
-            Debug.LogError("failed to retrieve sprites");
 
         playerState = PlayerState.idle;
     }
 
     private void Update()
     {
-        if(playerState == PlayerState.dead || !isLocalPlayer)
+        if (playerState != PlayerState.dead  && health <= 0)
         {
+            playerState = PlayerState.dead;
+            animator.SetInteger("PlayerState", (int)playerState);
+            rigidBo.isKinematic = true;
+        }
+        if (playerState == PlayerState.dead)
+        {
+            return;
+        }
+        if(!isLocalPlayer)
+        {
+            if(spriteRenderer.flipX == false && rigidBo.velocity.x > 0.01f)
+            {
+                spriteRenderer.flipX = true;
+            } else if (spriteRenderer.flipX == true && rigidBo.velocity.x < -0.01f)
+            {
+                spriteRenderer.flipX = false;
+            }
             return;
         }
 
@@ -88,7 +93,7 @@ public class PlayerInterface : NetworkBehaviour
         if (playerState == PlayerState.jumping && rigidBo.velocity.y > 0.0f)
             playerState = PlayerState.jumping;
 
-        if (playerState == PlayerState.jumping && rigidBo.velocity.y <= 0.0f)
+        else if (playerState == PlayerState.jumping && rigidBo.velocity.y <= 0.0f)
             playerState = PlayerState.falling;
 
         else if (playerState == PlayerState.falling && rigidBo.velocity.y <= 0.01f && rigidBo.velocity.y >= -0.01f)
@@ -98,30 +103,13 @@ public class PlayerInterface : NetworkBehaviour
             playerState = PlayerState.idle;
 
         else if(playerState == PlayerState.punch && sincePunchTime > punchSpeed)
-            playerState = PlayerState.idle;
-
-       
-        var spriteNameSplit = spriteRenderer.sprite.name.Split('_');
-        currentSpriteIndex = int.Parse(spriteNameSplit[spriteNameSplit.Length - 1]);
+            playerState = PlayerState.idle;  
         
         animator.SetInteger("PlayerState", (int)playerState);
     }
 
-    public void SyncRenderer()
-    {
-        if (isLocalPlayer)
-        {
-            Debug.LogError("SyncRenderer called on local");
-            return;
-        }; // dont sync is for syncing others
-
-        spriteRenderer.sprite = sprites[currentSpriteIndex];
-        spriteRenderer.flipX = isSpriteFlipped;
-    }
-
     public void Move(float xAxis)
     {
-        isSpriteFlipped = xAxis > 0;
         spriteRenderer.flipX = xAxis > 0;
 
         if ((rigidBo.velocity.x > 0 && xAxis < 0) || (rigidBo.velocity.x < 0 && xAxis > 0))
@@ -130,7 +118,7 @@ public class PlayerInterface : NetworkBehaviour
         if (rigidBo.velocity.x < maxMoveSpeed && rigidBo.velocity.x > -maxMoveSpeed)
             ApplyForce(new Vector2(xAxis, 0) * moveSpeed);
 
-        if (grounded.IsTouchingLayers(groundLayer))
+        if (grounded.IsTouchingLayers(groundLayer | characterLayer))
         {
             playerState = PlayerState.walking;
         }
@@ -145,7 +133,7 @@ public class PlayerInterface : NetworkBehaviour
     public void Jump()
     {
 
-        if (grounded.IsTouchingLayers(groundLayer) && sinceJump > jumpCooldown)
+        if (grounded.IsTouchingLayers(groundLayer | characterLayer) && sinceJump > jumpCooldown && rigidBo.velocity.y <= 0)
         {
             playerState = PlayerState.jumping;
             sinceJump = 0f;
@@ -157,12 +145,6 @@ public class PlayerInterface : NetworkBehaviour
     public void TakeDmg(float damage)
     {
         health -= damage;
-        if(health <= 0)
-        {
-            playerState = PlayerState.dead;
-            animator.SetInteger("PlayerState", (int)playerState);
-            rigidBo.isKinematic = true;
-        }
     }
 
     public void ApplyForce(Vector2 force)
@@ -182,7 +164,7 @@ public class PlayerInterface : NetworkBehaviour
 
         playerState = PlayerState.punch;
         sincePunchTime = 0;
-
+        
         Collider2D[] colliders = null;
         Vector3 fistOffset;
 

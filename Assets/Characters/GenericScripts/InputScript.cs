@@ -20,10 +20,13 @@ public class InputScript : NetworkBehaviour
         if (!isLocalPlayer)
         {
             // exit from update if this is not the local player
-            playerInterface.SyncRenderer();
-            return;
+            //playerInterface.SyncRenderer();
         }
-        LocalPlayer();
+        else
+        {
+            LocalPlayer();
+        }
+        
     }
 
 

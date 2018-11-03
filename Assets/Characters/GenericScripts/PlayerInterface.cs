@@ -191,4 +191,9 @@ public class PlayerInterface : NetworkBehaviour
             }
         }
     }
+
+    public bool IsLocalPlayer()
+    {
+        return isLocalPlayer;
+    }
 }

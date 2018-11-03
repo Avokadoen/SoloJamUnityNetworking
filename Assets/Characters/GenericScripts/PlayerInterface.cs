@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public enum PlayerState { idle, walking, falling, jumping, punch, kick, special, dead }
+public enum PlayerState { idle, walking, falling, jumping, punch, kick, special, block, dead }
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(Animator))]
 public class PlayerInterface : NetworkBehaviour
@@ -41,6 +41,27 @@ public class PlayerInterface : NetworkBehaviour
     private LayerMask characterLayer;
 
     private PlayerState playerState;
+    private Cinemachine.CinemachineVirtualCamera cinemachineVC;
+    private GameObject lookAtPoint;
+
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+
+        GameObject vCamera = GameObject.Find("VirtualCamera");
+        if(vCamera == null)
+        {
+            Debug.LogError("failed to retrieve vCamera");
+        }
+
+        cinemachineVC = vCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+
+        //cinemachineVC.Follow = transform;
+        //cinemachineVC.Follow = lookAtPoint.transform;
+        lookAtPoint = transform.Find("LookAtPoint").gameObject;
+        cinemachineVC.Follow = lookAtPoint.transform;
+
+    }
 
     private void Start()
     {
@@ -62,27 +83,43 @@ public class PlayerInterface : NetworkBehaviour
 
     private void Update()
     {
+        if (rigidBo.velocity.x > 0.00001f || rigidBo.velocity.x < -0.00001f)
+        {
+            spriteRenderer.flipX = rigidBo.velocity.x > 0.00001f;
+        }
+
         if (playerState != PlayerState.dead  && health <= 0)
         {
             playerState = PlayerState.dead;
             animator.SetInteger("PlayerState", (int)playerState);
             rigidBo.isKinematic = true;
+            cinemachineVC.LookAt = null;
         }
-        if (playerState == PlayerState.dead)
+        if (playerState == PlayerState.dead || !isLocalPlayer)
         {
             return;
         }
-        if(!isLocalPlayer)
+
+        Vector3 lookatOffset = new Vector3();
+        float speedThreshold = 0.2f;
+        float offset = 0.8f;
+        if(rigidBo.velocity.x > speedThreshold)
         {
-            if(spriteRenderer.flipX == false && rigidBo.velocity.x > 0.01f)
-            {
-                spriteRenderer.flipX = true;
-            } else if (spriteRenderer.flipX == true && rigidBo.velocity.x < -0.01f)
-            {
-                spriteRenderer.flipX = false;
-            }
-            return;
+            lookatOffset.x = offset * transform.lossyScale.x;
         }
+        else if (rigidBo.velocity.x < -speedThreshold)
+        {
+            lookatOffset.x = -offset * transform.lossyScale.x;
+        }
+        if (rigidBo.velocity.y > speedThreshold)
+        {
+            lookatOffset.y = offset * 0.4f * transform.lossyScale.y;
+        }
+        else if (rigidBo.velocity.y < -speedThreshold)
+        {
+            lookatOffset.y = -offset * 0.4f * transform.lossyScale.y;
+        }
+        lookAtPoint.transform.position = transform.position + lookatOffset;
 
         sincePunchTime  += Time.deltaTime;
         sinceJump       += Time.deltaTime;
@@ -107,7 +144,6 @@ public class PlayerInterface : NetworkBehaviour
 
     public void Move(float xAxis)
     {
-        spriteRenderer.flipX = xAxis > 0;
 
         if ((rigidBo.velocity.x > 0 && xAxis < 0) || (rigidBo.velocity.x < 0 && xAxis > 0))
             StopMove(); // todo: solve another way
@@ -171,13 +207,13 @@ public class PlayerInterface : NetworkBehaviour
 
         if (spriteRenderer.flipX == true)
         {
-            fistOffset = new Vector3(0.208f * transform.localScale.x, 0.015f * transform.localScale.y, 0);
+            fistOffset = new Vector3(0.208f * transform.lossyScale.x, 0.015f * transform.lossyScale.y, 0);
         }
         else
         {
-            fistOffset = new Vector3(-0.208f * transform.localScale.x, 0.015f * transform.localScale.y, 0);  
+            fistOffset = new Vector3(-0.208f * transform.lossyScale.x, 0.015f * transform.lossyScale.y, 0);  
         }
-        colliders = Physics2D.OverlapBoxAll(transform.position + fistOffset, new Vector2(0.1f * transform.localScale.x, 0.1f * transform.localScale.y), 0, characterLayer);
+        colliders = Physics2D.OverlapBoxAll(transform.position + fistOffset, new Vector2(0.1f * transform.lossyScale.x, 0.1f * transform.lossyScale.y), 0, characterLayer);
 
         foreach(Collider2D collider in colliders)
         {
@@ -191,6 +227,7 @@ public class PlayerInterface : NetworkBehaviour
             }
         }
     }
+
 
     public bool IsLocalPlayer()
     {

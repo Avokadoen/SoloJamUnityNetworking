@@ -25,6 +25,7 @@ public class InputScript : NetworkBehaviour
         else
         {
             LocalPlayer();
+            
         }
         
     }
@@ -55,6 +56,13 @@ public class InputScript : NetworkBehaviour
         if (Input.GetButtonDown("Punch"))
         {
             playerInterface.PrePunch();
+
+        } else if (Input.GetButtonDown("Kick"))
+        {
+            playerInterface.PreKick();
+        } else if (Input.GetButtonDown("Block"))
+        {
+            playerInterface.PreBlock();
         }
     }
 }

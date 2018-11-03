@@ -87,7 +87,6 @@ public class PlayerInterface : NetworkBehaviour
         if (animator == null)
             Debug.LogError("failed to retrieve animator");
 
-
         playerState = PlayerState.idle;
     }
 

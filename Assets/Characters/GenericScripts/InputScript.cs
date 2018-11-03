@@ -54,7 +54,7 @@ public class InputScript : NetworkBehaviour
 
         if (Input.GetButtonDown("Punch"))
         {
-            playerInterface.Punch();
+            playerInterface.PrePunch();
         }
     }
 }

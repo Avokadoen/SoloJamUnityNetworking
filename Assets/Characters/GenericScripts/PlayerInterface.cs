@@ -40,9 +40,6 @@ public class PlayerInterface : NetworkBehaviour
     [SerializeField]
     private LayerMask characterLayer;
 
-    [SyncVar, SerializeField]
-    private string spriteSheetName;
-
     private PlayerState playerState;
 
     private void Start()
@@ -157,14 +154,18 @@ public class PlayerInterface : NetworkBehaviour
         return playerState == PlayerState.dead;
     }
 
-    public void Punch()
+
+    public void PrePunch()
     {
         if (sincePunchTime < punchSpeed)
             return;
 
         playerState = PlayerState.punch;
         sincePunchTime = 0;
-        
+    }
+
+    public void Punch()
+    {  
         Collider2D[] colliders = null;
         Vector3 fistOffset;
 

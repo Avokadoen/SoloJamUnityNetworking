@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/fightScenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/fightScenes/BestScene.unity
+    guid: be24860d970d5124482b9b7e3b61bcaa
+  - enabled: 1
+    path: Assets/Scenes/CharacterSelect.unity
+    guid: f7af41ec3e273354cb0fd6b790b159dd
   m_configObjects: {}

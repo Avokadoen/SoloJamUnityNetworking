@@ -19,6 +19,16 @@ public class PlayerInterface : NetworkBehaviour
     private float punchDmg;
 
     [SerializeField]
+    private float kickSpeed;
+    private float sinceKickTime;
+    [SerializeField]
+    private float kickDmg;
+
+    [SerializeField]
+    private float blockResistance;
+    public bool isBlocking;
+
+    [SerializeField]
     private float moveSpeed;
     [SerializeField]
     private float maxMoveSpeed;
@@ -93,6 +103,7 @@ public class PlayerInterface : NetworkBehaviour
             playerState = PlayerState.dead;
             animator.SetInteger("PlayerState", (int)playerState);
             rigidBo.isKinematic = true;
+            cinemachineVC.Follow = null;
             cinemachineVC.LookAt = null;
         }
         if (playerState == PlayerState.dead || !isLocalPlayer)
@@ -121,13 +132,14 @@ public class PlayerInterface : NetworkBehaviour
         }
         lookAtPoint.transform.position = transform.position + lookatOffset;
 
+        sinceKickTime   += Time.deltaTime;
         sincePunchTime  += Time.deltaTime;
         sinceJump       += Time.deltaTime;
 
         if (playerState == PlayerState.jumping && rigidBo.velocity.y > 0.0f)
             playerState = PlayerState.jumping;
 
-        else if (playerState == PlayerState.jumping && rigidBo.velocity.y <= 0.0f)
+        else if ((playerState == PlayerState.jumping || playerState == PlayerState.idle) && rigidBo.velocity.y < 0.0f)
             playerState = PlayerState.falling;
 
         else if (playerState == PlayerState.falling && rigidBo.velocity.y <= 0.01f && rigidBo.velocity.y >= -0.01f)
@@ -137,8 +149,11 @@ public class PlayerInterface : NetworkBehaviour
             playerState = PlayerState.idle;
 
         else if(playerState == PlayerState.punch && sincePunchTime > punchSpeed)
-            playerState = PlayerState.idle;  
-        
+            playerState = PlayerState.idle;
+
+        else if (playerState == PlayerState.kick && sinceKickTime > punchSpeed)
+            playerState = PlayerState.idle;
+
         animator.SetInteger("PlayerState", (int)playerState);
     }
 
@@ -177,7 +192,11 @@ public class PlayerInterface : NetworkBehaviour
 
     public void TakeDmg(float damage)
     {
-        health -= damage;
+        float resistance = 0;
+        if (isBlocking)
+            resistance = blockResistance;
+
+        health -= damage * (1 - resistance);
     }
 
     public void ApplyForce(Vector2 force)
@@ -228,6 +247,52 @@ public class PlayerInterface : NetworkBehaviour
         }
     }
 
+    public void PreKick()
+    {
+        if (sinceKickTime < kickSpeed)
+            return;
+
+        playerState = PlayerState.kick;
+        sinceKickTime = 0;
+    }
+
+    public void Kick()
+    {
+        Collider2D[] colliders = null;
+        Vector3 kickOffset;
+
+        if (spriteRenderer.flipX == true)
+        {
+            kickOffset = new Vector3(0.181f * transform.lossyScale.x, -0.1992728f * transform.lossyScale.y, 0);
+        }
+        else
+        {
+            kickOffset = new Vector3(-0.181f * transform.lossyScale.x, -0.1992728f * transform.lossyScale.y, 0);
+        }
+        colliders = Physics2D.OverlapBoxAll(transform.position + kickOffset, new Vector2(0.15f * transform.lossyScale.x, 0.15f * transform.lossyScale.y), 0, characterLayer);
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject == gameObject)
+                continue;
+
+            var otherPlayer = collider.gameObject.GetComponent<PlayerInterface>();
+            if (otherPlayer != null)
+            {
+                otherPlayer.TakeDmg(kickDmg);
+            }
+        }
+    }
+
+    public void PreBlock()
+    {
+        playerState = PlayerState.block;
+    }
+
+    public void ToggleIsBlocking()
+    {
+        isBlocking = !isBlocking;
+    }
 
     public bool IsLocalPlayer()
     {

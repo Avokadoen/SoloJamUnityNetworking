@@ -14,6 +14,8 @@ TextureImporter:
     21300018: UglyManSheet_9
     21300020: UglyManSheet_10
     21300022: UglyManSheet_11
+    21300024: UglyManSheet_12
+    21300026: UglyManSheet_13
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -100,6 +102,46 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
+        y: 832
+        width: 48
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e989e0d8262f0e4b8ee158a596fa380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UglyManSheet_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 768
+        width: 48
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cf9df5db4085d74c81651a6881e978a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UglyManSheet_2
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 704
         width: 48
         height: 64
@@ -110,13 +152,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8edb437883044040952d8a2f925f77e
+      spriteID: 6cdad69e080e8404cbdf67539d6d796b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_1
+      name: UglyManSheet_3
       rect:
         serializedVersion: 2
         x: 0
@@ -130,13 +172,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6104f58385a925e4e89713b09c9f3616
+      spriteID: 169505f7b976fa246bdbaeeb8aeff288
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_2
+      name: UglyManSheet_4
       rect:
         serializedVersion: 2
         x: 0
@@ -150,13 +192,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dc150645c4fabbe4e99b093e116f30aa
+      spriteID: d81b4a77d1bf69b4583bc3cb534fde94
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_3
+      name: UglyManSheet_5
       rect:
         serializedVersion: 2
         x: 0
@@ -170,13 +212,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 044b0a23428290c498ad62273130c073
+      spriteID: 5e09bf3caa039aa45b5ffe9b9df0ab44
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_4
+      name: UglyManSheet_6
       rect:
         serializedVersion: 2
         x: 0
@@ -190,13 +232,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e35af59f3a89007488372f5df000d81e
+      spriteID: 2a6794b9a39bddd4c9546361484d4f2d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_5
+      name: UglyManSheet_7
       rect:
         serializedVersion: 2
         x: 0
@@ -210,13 +252,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c044e12f344aec64dab3080edc9751bc
+      spriteID: 513f8fe7fbfad614a9ce923f2a6448cd
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_6
+      name: UglyManSheet_8
       rect:
         serializedVersion: 2
         x: 0
@@ -230,13 +272,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 696d44f0110367f40ad75ce58f3945df
+      spriteID: 25ea697c8e8b31d44b4598ac8cdf858d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_7
+      name: UglyManSheet_9
       rect:
         serializedVersion: 2
         x: 0
@@ -250,13 +292,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ed314a9692dd4d4cb8039008462739d
+      spriteID: 2e9c8a2a4780c314eab486ce01da587a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_8
+      name: UglyManSheet_10
       rect:
         serializedVersion: 2
         x: 0
@@ -270,13 +312,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48ea5c15ad3e7fb4382cd9a2016b45fa
+      spriteID: 844656cf8ac65284c8a80902f5f73501
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_9
+      name: UglyManSheet_11
       rect:
         serializedVersion: 2
         x: 0
@@ -290,13 +332,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f68ff83fc6907346941bff344eec661
+      spriteID: 9482246674c4e3b438f766608922b2ab
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_10
+      name: UglyManSheet_12
       rect:
         serializedVersion: 2
         x: 0
@@ -310,13 +352,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92a995fe60722e145b0bfba5421c3309
+      spriteID: d554483e14ca2944cae05bd18456686f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UglyManSheet_11
+      name: UglyManSheet_13
       rect:
         serializedVersion: 2
         x: 0
@@ -330,7 +372,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6ca2a06d2240a34b84ccdce4d8a4ac9
+      spriteID: 6cd32510f328cbb40a37be00e9e2ab18
       vertices: []
       indices: 
       edges: []

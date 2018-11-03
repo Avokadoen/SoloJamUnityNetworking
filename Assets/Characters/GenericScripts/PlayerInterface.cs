@@ -54,6 +54,13 @@ public class PlayerInterface : NetworkBehaviour
     private Cinemachine.CinemachineVirtualCamera cinemachineVC;
     private GameObject lookAtPoint;
 
+    [SerializeField]
+    private AudioClip tookPureDamage;
+    [SerializeField]
+    private AudioClip tookBlockDamage;
+
+    private AudioSource audioSource;
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -193,8 +200,16 @@ public class PlayerInterface : NetworkBehaviour
     {
         float resistance = 0;
         if (isBlocking)
+        {
+            audioSource.PlayOneShot(tookBlockDamage);
             resistance = blockResistance;
+        }
+        else
+        {
+            audioSource.PlayOneShot(tookPureDamage);
+        }
 
+       
         health -= damage * (1 - resistance);
     }
 

@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 114062343610594426}
   - component: {fileID: 82938972073368648}
   m_Layer: 14
-  m_Name: UglyManPrefab
+  m_Name: HotDad
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1295722248690478}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.3503456, y: -1.1059237, z: 0}
+  m_LocalPosition: {x: -4.9537487, y: -0.15996383, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4320514963138076}
@@ -253,7 +253,7 @@ Animator:
   m_GameObject: {fileID: 1295722248690478}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 99c7a3c4d9529b445b4507f5856bd9a3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 36229f9ec13bded4e9b230287000aac7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -295,22 +295,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 163
-    i1: 97
-    i2: 3
-    i3: 192
-    i4: 249
-    i5: 79
-    i6: 196
-    i7: 132
-    i8: 168
-    i9: 238
-    i10: 239
-    i11: 194
-    i12: 208
-    i13: 136
-    i14: 240
-    i15: 78
+    i0: 47
+    i1: 109
+    i2: 105
+    i3: 223
+    i4: 81
+    i5: 91
+    i6: 98
+    i7: 4
+    i8: 152
+    i9: 121
+    i10: 5
+    i11: 127
+    i12: 154
+    i13: 226
+    i14: 51
+    i15: 156
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!114 &114261889428962346
@@ -411,7 +411,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300012, guid: 32720e4572fc3eb4f9dc6d4797234926, type: 3}
+  m_Sprite: {fileID: 21300000, guid: be4fb834d20b50f4394c61407a4b1c50, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

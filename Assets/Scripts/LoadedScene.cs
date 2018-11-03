@@ -18,7 +18,7 @@ public class LoadedScene : MonoBehaviour {
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name != "mainMenu")
+        if(scene.name != "mainMenu" && scene.name != "CharacterSelect")
         {
             networkHUD.showGUI = true;
         }

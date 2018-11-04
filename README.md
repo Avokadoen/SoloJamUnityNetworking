@@ -1,5 +1,7 @@
 # SoloJamNetworking
 
+![](thegame.gif)
+
 ## How to run
 
 - Open unity 2017 or higher

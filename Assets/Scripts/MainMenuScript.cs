@@ -9,6 +9,11 @@ public class MainMenuScript : MonoBehaviour {
 
     public GameObject[] Characters;
 
+    public void Start()
+    {
+        //NetworkManager.singleton.spawnPrefabs = Characters;
+    }
+
     public void ButtonLevelLoad(GameObject button)
     {
         string sceneName = button.GetComponentInChildren<Text>().text;
@@ -47,6 +52,14 @@ public class MainMenuScript : MonoBehaviour {
             index = 1;
         }
 
-        NetworkManager.singleton.playerPrefab = Characters[index];
+        var netManager =  FindObjectOfType<NetManager>();
+        if (netManager == null)
+        {
+            Debug.LogError("failed to retrieve NetManager");
+            return;
+        }
+
+        netManager.curPlayer = index;
+
     }
 }

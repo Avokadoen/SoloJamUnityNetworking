@@ -12,6 +12,9 @@ public class PlayerInterface : NetworkBehaviour
     [SyncVar]
     public float health;
 
+    [SyncVar]
+    public bool flipstate;
+
     [SerializeField]
     private float punchSpeed;
     private float sincePunchTime;
@@ -103,10 +106,16 @@ public class PlayerInterface : NetworkBehaviour
 
     private void Update()
     {
-        if (rigidBo.velocity.x > 0.00001f || rigidBo.velocity.x < -0.00001f)
+        if (isServer)
         {
-            spriteRenderer.flipX = rigidBo.velocity.x > 0.00001f;
+            if (rigidBo.velocity.x > 0.00001f || rigidBo.velocity.x < -0.00001f)
+            {
+                flipstate = rigidBo.velocity.x > 0.00001f;
+            }
         }
+        
+
+        spriteRenderer.flipX = flipstate;
 
         if (playerState != PlayerState.dead  && health <= 0)
         {
@@ -170,6 +179,9 @@ public class PlayerInterface : NetworkBehaviour
     public void Move(float xAxis)
     {
 
+        //flipstate = xAxis > 0;
+        //spriteRenderer.flipX = flipstate;
+
         if ((rigidBo.velocity.x > 0 && xAxis < 0) || (rigidBo.velocity.x < 0 && xAxis > 0))
             StopMove(); // todo: solve another way
 
@@ -202,6 +214,11 @@ public class PlayerInterface : NetworkBehaviour
 
     public void TakeDmg(float damage)
     {
+        if (!isServer)
+        {
+            return;
+        }
+
         float resistance = 0;
         if (isBlocking)
         {
@@ -238,7 +255,11 @@ public class PlayerInterface : NetworkBehaviour
     }
 
     public void Punch()
-    {  
+    {
+        if (!isServer)
+        {
+            return;
+        }
         Collider2D[] colliders = null;
         Vector3 fistOffset;
 
@@ -276,6 +297,11 @@ public class PlayerInterface : NetworkBehaviour
 
     public void Kick()
     {
+        if (!isServer)
+        {
+            return;
+        }
+
         Collider2D[] colliders = null;
         Vector3 kickOffset;
 

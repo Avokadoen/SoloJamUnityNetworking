@@ -94,6 +94,10 @@ public class PlayerInterface : NetworkBehaviour
         if (animator == null)
             Debug.LogError("failed to retrieve animator");
 
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            Debug.LogError("failed to retrieve audioSource");
+
         playerState = PlayerState.idle;
     }
 
@@ -201,7 +205,7 @@ public class PlayerInterface : NetworkBehaviour
         float resistance = 0;
         if (isBlocking)
         {
-            audioSource.PlayOneShot(tookBlockDamage);
+            
             resistance = blockResistance;
         }
         else
@@ -247,8 +251,8 @@ public class PlayerInterface : NetworkBehaviour
             fistOffset = new Vector3(-0.208f * transform.lossyScale.x, 0.015f * transform.lossyScale.y, 0);  
         }
         colliders = Physics2D.OverlapBoxAll(transform.position + fistOffset, new Vector2(0.1f * transform.lossyScale.x, 0.1f * transform.lossyScale.y), 0, characterLayer);
-
-        foreach(Collider2D collider in colliders)
+        audioSource.PlayOneShot(tookBlockDamage);
+        foreach (Collider2D collider in colliders)
         {
             if (collider.gameObject == gameObject)
                 continue;

@@ -5,7 +5,7 @@ using UnityEngine.Networking.NetworkSystem;
 public class NetManager : NetworkManager
 {
 
-    public Transform spawnPosition;
+    public Transform[] spawnPosition;
     public int curPlayer;
 
 
@@ -15,12 +15,19 @@ public class NetManager : NetworkManager
         NetworkStartPosition[] spawnPositionArray = FindObjectsOfType<NetworkStartPosition>();
         if(spawnPositionArray.Length > 1)
         {
-            spawnPosition = spawnPositionArray[Random.Range(0, spawnPositionArray.Length - 1)].transform;
+            spawnPosition = new Transform[spawnPositionArray.Length];
+            int i = 0;
+            foreach (var transform in spawnPositionArray)
+            {
+                spawnPosition[i] = spawnPositionArray[i++].transform;
+            }
+                
         }
         else
         {
+            spawnPosition = new Transform[1];
             Debug.Log("no spawn positions");
-            spawnPosition.position = new Vector3(0, 0, 0);
+            spawnPosition[0].position = new Vector3(0, 0, 0);
         }  
 
         // Create message to set the player
@@ -44,7 +51,7 @@ public class NetManager : NetworkManager
         var playerPrefab = spawnPrefabs[curPlayer];
 
         // Create player object with prefab
-        var player = Instantiate(playerPrefab, spawnPosition.position, Quaternion.identity) as GameObject;
+        var player = Instantiate(playerPrefab, spawnPosition[Random.Range(0, spawnPosition.Length)].position, Quaternion.identity) as GameObject;
 
         // Add player object for connection
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
